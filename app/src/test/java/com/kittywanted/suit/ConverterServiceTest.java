@@ -3,6 +3,7 @@ package com.kittywanted.suit;
 import com.kittywanted.adapters.ConverterService;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.StringUtils;
+import org.thymeleaf.context.Context;
 import utils.TestScenariosProvider;
 
 import java.io.IOException;
@@ -18,7 +19,10 @@ class ConverterServiceTest {
         var input = TestScenariosProvider.getScenario("hello", TestScenariosProvider.ScenarioType.INPUT);
         var expectedHtmlOutput = TestScenariosProvider.getScenario("hello", TestScenariosProvider.ScenarioType.EXPECTED);
 
-        final String actualOutput = service.renderFromThymeleafHtmlToString(input);
+        final Context context = new Context();
+        context.setVariable("cat_name", "Garfield");
+
+        final String actualOutput = service.renderFromThymeleafHtmlToString(input, context);
         assertEquals(StringUtils.trimAllWhitespace(expectedHtmlOutput), StringUtils.trimAllWhitespace(actualOutput));
     }
 }

@@ -10,13 +10,11 @@ import org.thymeleaf.templateresolver.StringTemplateResolver;
 public class ConverterService {
 
     private TemplateEngine templateEngine = new TemplateEngine();
-    public String renderFromThymeleafHtmlToString(final String htmlWithThymeleafTags){
+    public String renderFromThymeleafHtmlToString(final String htmlWithThymeleafTags, final Context context){
         StringTemplateResolver  templateResolver = new StringTemplateResolver();
         templateEngine.setTemplateResolver(templateResolver);
-        Context context = new Context();
-        context.setVariable("cat_name", "Garfield");
+
 
         return templateEngine.process(htmlWithThymeleafTags, context);
-
     }
 }
