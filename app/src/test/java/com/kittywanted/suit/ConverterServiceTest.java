@@ -1,6 +1,6 @@
 package com.kittywanted.suit;
 
-import com.kittywanted.adapters.ConverterService;
+import com.kittywanted.adapters.api.ConverterService;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.StringUtils;
 import org.thymeleaf.context.Context;

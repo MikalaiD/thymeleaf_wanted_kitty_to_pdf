@@ -1,4 +1,4 @@
-package com.kittywanted.adapters;
+package com.kittywanted.adapters.api;
 
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
