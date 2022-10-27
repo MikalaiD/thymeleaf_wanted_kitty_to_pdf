@@ -6,8 +6,8 @@ import java.math.BigDecimal;
 
 @Data
 @Builder
-public class WantedPoster {
+public class Poster {
     private final String name;
-    private final BigDecimal price;
+    private final BigDecimal reward;
     private final String ownerName;
 }
