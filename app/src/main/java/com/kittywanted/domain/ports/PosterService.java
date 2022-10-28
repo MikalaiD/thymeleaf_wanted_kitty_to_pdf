@@ -1,18 +1,21 @@
 package com.kittywanted.domain.ports;
 
-import com.kittywanted.adapters.api.ConverterService;
 import com.kittywanted.domain.model.Poster;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.nio.file.Path;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.xhtmlrenderer.layout.SharedContext;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.nio.file.Path;
 
+@RequiredArgsConstructor
 public class PosterService {
+
+    private final Resolver<String> resolver;
     public Poster getEmptyPoster(){
         return Poster.builder().build();
     }
@@ -20,10 +23,8 @@ public class PosterService {
     @SneakyThrows
     public boolean saveAsPdf(final Poster poster, final String template, final Path outputPath) {
 
-        ConverterService templateService  = new ConverterService();
-        String resolvedHTML = templateService.resolve(template, poster);
-
-        Document document = Jsoup.parse(resolvedHTML);
+        final String resolvedTemplate = resolver.resolve(template, poster);
+        var document = Jsoup.parse(resolvedTemplate);
         document.outputSettings().syntax(Document.OutputSettings.Syntax.xml);
         try (OutputStream outputStream = new FileOutputStream(outputPath.toFile())) {
             ITextRenderer renderer = new ITextRenderer();
@@ -34,7 +35,6 @@ public class PosterService {
             renderer.layout();
             renderer.createPDF(outputStream);
         }
-
         return true;
     }
 }
