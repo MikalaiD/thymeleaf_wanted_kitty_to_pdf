@@ -5,10 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.kittywanted.adapters.posterservice.SimpleStringResolver;
 import com.kittywanted.config.PosterConfig;
 import com.kittywanted.domain.model.Poster;
 import com.kittywanted.domain.ports.PosterService;
 import com.kittywanted.domain.ports.Resolver;
+import com.kittywanted.suit.PosterServiceTest.LocalConfig;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Path;
@@ -23,10 +25,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.thymeleaf.TemplateEngine;
 import utils.TestScenariosProvider;
 
 @SpringJUnitConfig(classes = PosterConfig.class)
+@Import(LocalConfig.class)
 class PosterServiceTest {
 
   @TempDir
@@ -88,4 +95,11 @@ class PosterServiceTest {
                      poster.getReward() == null ? null : poster.getReward().toEngineeringString());
   }
 
+  @TestConfiguration
+  static class LocalConfig{
+    @Bean
+    public Resolver<String> resolver(final TemplateEngine templateEngine){
+      return new SimpleStringResolver(templateEngine);
+    }
+  }
 }

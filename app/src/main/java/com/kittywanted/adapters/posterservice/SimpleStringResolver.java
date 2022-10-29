@@ -3,9 +3,11 @@ package com.kittywanted.adapters.posterservice;
 import com.kittywanted.domain.model.Poster;
 import com.kittywanted.domain.ports.Resolver;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+@Service
 @RequiredArgsConstructor
 public class SimpleStringResolver implements Resolver<String> {
 

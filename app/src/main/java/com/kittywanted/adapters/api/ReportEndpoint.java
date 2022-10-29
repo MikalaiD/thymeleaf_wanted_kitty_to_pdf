@@ -1,16 +1,19 @@
 package com.kittywanted.adapters.api;
 
-import com.kittywanted.domain.model.Poster;
-import java.math.BigDecimal;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
+@RequiredArgsConstructor
 public class ReportEndpoint {
+
+  private final PosterServiceFacade posterServiceFacade;
+
   @GetMapping("/")
-  public String test(final Model model){
-    model.addAttribute("poster", Poster.builder().name("Cat1").ownerName("Noone").reward(BigDecimal.ZERO).build());
+  public String getIndex(final Model model){
+    model.addAttribute("poster", posterServiceFacade.getEmptyPoster());
     return "index";
   }
 }
