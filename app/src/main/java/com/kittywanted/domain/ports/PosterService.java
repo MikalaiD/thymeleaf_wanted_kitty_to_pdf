@@ -1,5 +1,6 @@
 package com.kittywanted.domain.ports;
 
+import com.kittywanted.adapters.posterservice.PosterExternalModel;
 import com.kittywanted.domain.model.Poster;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
@@ -16,8 +17,8 @@ import org.xhtmlrenderer.pdf.ITextRenderer;
 public class PosterService {
 
     private final Resolver<String> resolver;
-    public Poster getEmptyPoster(){
-        return Poster.builder().build();
+    public PosterExternalModel getEmptyPosterExternal(){
+        return PosterExternalModel.builder().build();
     }
 
     @SneakyThrows

@@ -2,13 +2,15 @@ package com.kittywanted.suit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.kittywanted.adapters.api.SimpleStringResolver;
+import com.kittywanted.adapters.posterservice.SimpleStringResolver;
 import com.kittywanted.config.PosterConfig;
 import com.kittywanted.domain.model.Poster;
 import java.io.IOException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.util.StringUtils;
 import org.thymeleaf.TemplateEngine;
@@ -18,7 +20,9 @@ import utils.TestScenariosProvider;
 class ResolverServiceTest {
 
     @Autowired
+    @Qualifier("TemplateWithStringResolver")
     private TemplateEngine templateEngine;
+
     private SimpleStringResolver resolver;
     @BeforeEach
     void setup(){

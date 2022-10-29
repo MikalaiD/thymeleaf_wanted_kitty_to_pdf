@@ -2,6 +2,7 @@ package com.kittywanted.suit;
 
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.kittywanted.config.PosterConfig;
@@ -41,7 +42,11 @@ class PosterServiceTest {
 
   @Test
   void testPosterServiceReturnsEmptyReport() {
-    assertNotNull(posterService.getEmptyPoster());
+    var emptyPosterExternal = posterService.getEmptyPosterExternal();
+    assertNotNull(emptyPosterExternal);
+    assertNull(emptyPosterExternal.getName());
+    assertNull(emptyPosterExternal.getOwnerName());
+    assertNull(emptyPosterExternal.getReward());
   }
 
   @SneakyThrows
