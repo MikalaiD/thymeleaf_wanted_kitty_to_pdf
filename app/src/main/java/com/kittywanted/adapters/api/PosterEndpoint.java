@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 @RequiredArgsConstructor
-public class ReportEndpoint {
+public class PosterEndpoint {
 
   private final PosterServiceFacade posterServiceFacade;
 
