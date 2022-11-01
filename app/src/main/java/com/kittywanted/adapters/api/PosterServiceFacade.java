@@ -14,4 +14,9 @@ public class PosterServiceFacade {
     return posterService.getEmptyPosterExternal();
   }
 
+  public byte[] getAsPdf(final PosterExternalModel poster,
+                       final Template template) {
+    return posterService.getAsPdfByteArray(poster.toDomain(), template.toString());
+
+  }
 }

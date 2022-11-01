@@ -2,6 +2,7 @@ package com.kittywanted.domain.ports;
 
 import com.kittywanted.adapters.posterservice.PosterExternalModel;
 import com.kittywanted.domain.model.Poster;
+import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.nio.file.Path;
@@ -24,7 +25,7 @@ public class PosterService {
     }
 
     @SneakyThrows
-    public boolean saveAsPdf(final Poster poster, final String template, final Path outputPath) {
+    public boolean saveAsPdfAt(final Poster poster, final String template, final Path outputPath) {
 
         final String resolvedTemplate = resolver.resolve(template, poster);
         var document = Jsoup.parse(resolvedTemplate);
@@ -40,4 +41,22 @@ public class PosterService {
         }
         return true;
     }
+
+    @SneakyThrows
+    public byte[] getAsPdfByteArray(final Poster poster, final String template){
+        var resolvedTemplate = resolver.resolve(template, poster);
+        var document = Jsoup.parse(resolvedTemplate);
+        document.outputSettings().syntax(Document.OutputSettings.Syntax.xml);
+        try (var outputStream = new ByteArrayOutputStream();) {
+            ITextRenderer renderer = new ITextRenderer();
+            SharedContext sharedContext = renderer.getSharedContext();
+            sharedContext.setPrint(true);
+            sharedContext.setInteractive(false);
+            renderer.setDocumentFromString(document.html());
+            renderer.layout();
+            renderer.createPDF(outputStream);
+            return outputStream.toByteArray();
+        }
+    }
+
 }

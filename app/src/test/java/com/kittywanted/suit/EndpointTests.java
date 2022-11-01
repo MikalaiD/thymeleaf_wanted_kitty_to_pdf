@@ -1,5 +1,7 @@
 package com.kittywanted.suit;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -7,7 +9,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.kittywanted.adapters.api.PosterEndpoint;
 import com.kittywanted.adapters.api.PosterServiceFacade;
+import com.kittywanted.adapters.api.Template;
 import com.kittywanted.adapters.posterservice.PosterExternalModel;
+import java.math.BigDecimal;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +22,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 @WebMvcTest(controllers = PosterEndpoint.class)
-class IndexMVCTest {
+class EndpointTests {
 
   private MockMvc mockMvc;
 
@@ -43,5 +47,19 @@ class IndexMVCTest {
     mockMvc.perform(get("/"))
            .andExpect(status().isOk())
            .andExpect(model().attribute("poster", poster));
+  }
+
+  @Test
+  void testPdfSaveIsCalledCorrectly() throws Exception {
+    final PosterExternalModel poster = PosterExternalModel.builder()
+                                                          .name("Fluffy")
+                                                          .ownerName("John Wick")
+                                                          .reward(BigDecimal.valueOf(876L))
+                                                          .build();
+    when(posterServiceFacade.getAsPdf(any(PosterExternalModel.class), any(Template.class)))
+        .thenReturn(new byte[]{});
+
+    mockMvc.perform(get("/save-as-pdf").flashAttr("poster", poster))
+           .andExpect(status().isOk());
   }
 }

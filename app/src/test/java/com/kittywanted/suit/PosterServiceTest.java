@@ -28,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
+import org.springframework.stereotype.Service;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.thymeleaf.TemplateEngine;
 import utils.TestScenariosProvider;
@@ -66,12 +67,24 @@ class PosterServiceTest {
                        .build();
 
     var outputPath = tempDir.resolve("poster_all.pdf");
-
     var template = TestScenariosProvider.getScenario("all_data_has_placeholder",
                                                      TestScenariosProvider.ScenarioType.INPUT);
 
-    assertTrue(posterService.saveAsPdf(poster, template, outputPath));
+    assertTrue(posterService.saveAsPdfAt(poster, template, outputPath));
     assertTrue(pdfContainsKeyValues(outputPath, poster));
+  }
+
+  @Test
+  @SneakyThrows
+  void testIfPdfByteArrayIsReturned(){
+    var poster = Poster.builder()
+                       .name("Fluffy")
+                       .ownerName("Nick").reward(BigDecimal.valueOf(700))
+                       .build();
+    var template = TestScenariosProvider.getScenario("all_data_has_placeholder",
+                                                     TestScenariosProvider.ScenarioType.INPUT);
+
+    assertNotNull(posterService.getAsPdfByteArray(poster, template));
   }
 
   private boolean pdfContainsKeyValues(final Path path, final Poster poster) {
