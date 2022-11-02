@@ -3,6 +3,7 @@ package com.kittywanted.adapters.posterservice;
 import com.kittywanted.domain.model.Poster;
 import com.kittywanted.domain.ports.Resolver;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -11,6 +12,7 @@ import org.thymeleaf.context.Context;
 @RequiredArgsConstructor
 public class SimpleStringResolver implements Resolver<String> {
 
+  @Qualifier("TemplateWithStringResolver")
   private final TemplateEngine templateEngine;
 
   public String resolve(final String htmlWithThymeleafTags, final Poster poster) {

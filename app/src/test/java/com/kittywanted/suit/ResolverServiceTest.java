@@ -6,6 +6,7 @@ import com.kittywanted.adapters.posterservice.SimpleStringResolver;
 import com.kittywanted.config.PosterConfig;
 import com.kittywanted.domain.model.Poster;
 import java.io.IOException;
+import java.math.BigDecimal;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ class ResolverServiceTest {
     void service_converts_html_with_thymeleaf_tags_to_string_with_data() throws IOException {
         var input = TestScenariosProvider.getScenario("hello", TestScenariosProvider.ScenarioType.INPUT);
         var expectedHtmlOutput = TestScenariosProvider.getScenario("hello", TestScenariosProvider.ScenarioType.EXPECTED);
-        var poster = Poster.builder().name("Garfield").build();
+        var poster = Poster.builder().name("Garfield").ownerName("Nick").reward(BigDecimal.valueOf(9999)).build();
 
         var resolvedOutput = resolver.resolve(input, poster);
         assertEquals(StringUtils.trimAllWhitespace(expectedHtmlOutput), StringUtils.trimAllWhitespace(resolvedOutput));
