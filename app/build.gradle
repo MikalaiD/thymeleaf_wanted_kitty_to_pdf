@@ -38,7 +38,8 @@ dependencies {
     implementation 'org.apache.pdfbox:pdfbox:2.0.27'
 
 
-
+    implementation 'org.webjars:bootstrap:5.2.2'
+    implementation 'org.webjars:jquery:3.6.1'
 }
 
 application {

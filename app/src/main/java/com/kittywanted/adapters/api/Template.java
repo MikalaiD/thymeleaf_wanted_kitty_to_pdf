@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 public enum Template {
   CAT_WANTED("index");
 
-  private final String fileName;
+  private final String fileName ;
 
   @Override
   public String toString(){
