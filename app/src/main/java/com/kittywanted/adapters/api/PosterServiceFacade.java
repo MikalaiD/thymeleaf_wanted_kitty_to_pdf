@@ -19,4 +19,8 @@ public class PosterServiceFacade {
     return posterService.getAsPdfByteArray(poster.toDomain(), template.toString());
 
   }
+
+  public void toggleTheme(final PosterExternalModel poster) {
+    return;
+  }
 }

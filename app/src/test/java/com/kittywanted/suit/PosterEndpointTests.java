@@ -4,6 +4,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -22,7 +23,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 @WebMvcTest(controllers = PosterEndpoint.class)
-class EndpointTests {
+class PosterEndpointTests {
 
   private MockMvc mockMvc;
 
@@ -31,10 +32,16 @@ class EndpointTests {
 
   @MockBean
   private PosterServiceFacade posterServiceFacade;
+  private PosterExternalModel poster;
 
   @BeforeEach
   void setUp() throws Exception {
     mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+    poster = PosterExternalModel.builder()
+                                .name("Fluffy")
+                                .ownerName("John Wick")
+                                .reward(BigDecimal.valueOf(876L))
+                                .build();
   }
 
   @Test
@@ -61,5 +68,13 @@ class EndpointTests {
 
     mockMvc.perform(get("/save-as-pdf").flashAttr("poster", poster))
            .andExpect(status().isOk());
+  }
+
+  @Test
+  void testTogglingPosterTheme() throws Exception {
+
+    doNothing().when(posterServiceFacade).toggleTheme(poster);
+
+    mockMvc.perform(post("/toggle-theme")).andExpect(status().isOk());
   }
 }
