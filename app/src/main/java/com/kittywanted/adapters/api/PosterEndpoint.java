@@ -1,6 +1,7 @@
 package com.kittywanted.adapters.api;
 
 import com.kittywanted.adapters.posterservice.PosterExternalModel;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,11 +17,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @RequiredArgsConstructor
 public class PosterEndpoint {
 
+  public static final String POSTER = "poster";
   private final PosterServiceFacade posterServiceFacade;
 
   @GetMapping("/")
   public String getIndex(final Model model) {
-    model.addAttribute("poster", posterServiceFacade.getEmptyPoster());
+    if (!model.containsAttribute(POSTER))
+      model.addAttribute(POSTER, posterServiceFacade.getEmptyPoster());
     return "html/index";
   }
 
@@ -31,9 +34,9 @@ public class PosterEndpoint {
   }
 
   @PostMapping("/toggle-theme")
-  @ResponseStatus(value = HttpStatus.OK)
-  public void toggleTheme(@ModelAttribute final PosterExternalModel poster) {
+  public String toggleTheme(final Model model, @ModelAttribute @NonNull PosterExternalModel poster) {
     posterServiceFacade.toggleTheme(poster);
+    return getIndex(model);
   }
 
 }

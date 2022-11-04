@@ -1,7 +1,7 @@
 package com.kittywanted.suit;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -12,7 +12,9 @@ import com.kittywanted.adapters.api.PosterEndpoint;
 import com.kittywanted.adapters.api.PosterServiceFacade;
 import com.kittywanted.adapters.api.Template;
 import com.kittywanted.adapters.posterservice.PosterExternalModel;
+import com.kittywanted.adapters.posterservice.PosterExternalModel.Theme;
 import java.math.BigDecimal;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +41,7 @@ class PosterEndpointTests {
     mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     poster = PosterExternalModel.builder()
                                 .name("Fluffy")
-                                .ownerName("John Wick")
+                                .theme(Theme.DARK)
                                 .reward(BigDecimal.valueOf(876L))
                                 .build();
   }
@@ -58,11 +60,6 @@ class PosterEndpointTests {
 
   @Test
   void testPdfSaveIsCalledCorrectly() throws Exception {
-    final PosterExternalModel poster = PosterExternalModel.builder()
-                                                          .name("Fluffy")
-                                                          .ownerName("John Wick")
-                                                          .reward(BigDecimal.valueOf(876L))
-                                                          .build();
     when(posterServiceFacade.getAsPdf(any(PosterExternalModel.class), any(Template.class)))
         .thenReturn(new byte[]{});
 
@@ -72,9 +69,12 @@ class PosterEndpointTests {
 
   @Test
   void testTogglingPosterTheme() throws Exception {
+    var currentTheme = poster.getTheme();
 
-    doNothing().when(posterServiceFacade).toggleTheme(poster);
-
-    mockMvc.perform(post("/toggle-theme")).andExpect(status().isOk());
+    doCallRealMethod().when(posterServiceFacade).toggleTheme(any());
+    mockMvc.perform(post("/toggle-theme").flashAttr("poster", poster))
+           .andExpect(status().isOk())
+           .andExpect(model().attribute("poster",
+                                        Matchers.hasProperty("theme", Matchers.not(currentTheme))));
   }
 }

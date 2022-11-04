@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.kittywanted.adapters.posterservice.SimpleStringResolver;
 import com.kittywanted.config.PosterConfig;
 import com.kittywanted.domain.model.Poster;
+import com.kittywanted.domain.model.Poster.Theme;
 import com.kittywanted.domain.ports.PosterService;
 import com.kittywanted.domain.ports.Resolver;
 import com.kittywanted.suit.PosterServiceTest.LocalConfig;
@@ -28,7 +29,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
-import org.springframework.stereotype.Service;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.thymeleaf.TemplateEngine;
 import utils.TestScenariosProvider;
@@ -53,7 +53,7 @@ class PosterServiceTest {
     var emptyPosterExternal = posterService.getEmptyPosterExternal();
     assertNotNull(emptyPosterExternal);
     assertNull(emptyPosterExternal.getName());
-    assertNull(emptyPosterExternal.getOwnerName());
+    assertNull(emptyPosterExternal.getTheme());
     assertNull(emptyPosterExternal.getReward());
   }
 
@@ -63,7 +63,7 @@ class PosterServiceTest {
     //given
     var poster = Poster.builder()
                        .name("Fluffy")
-                       .ownerName("Nick").reward(BigDecimal.valueOf(700))
+                       .theme(Theme.LIGHT).reward(BigDecimal.valueOf(700))
                        .build();
 
     var outputPath = tempDir.resolve("poster_all.pdf");
@@ -77,9 +77,11 @@ class PosterServiceTest {
   @Test
   @SneakyThrows
   void testIfPdfByteArrayIsReturned(){
+
     var poster = Poster.builder()
                        .name("Fluffy")
-                       .ownerName("Nick").reward(BigDecimal.valueOf(700))
+                       .theme(Theme.LIGHT)
+                       .reward(BigDecimal.valueOf(700))
                        .build();
     var template = TestScenariosProvider.getScenario("all_data_has_placeholder",
                                                      TestScenariosProvider.ScenarioType.INPUT);
@@ -104,7 +106,8 @@ class PosterServiceTest {
   }
 
   private Stream<String> extractAttributes(final Poster poster) {
-    return Stream.of(poster.getName(), poster.getOwnerName(),
+    return Stream.of(poster.getName(),
+                     poster.getTheme() == null ? null : poster.getTheme().name(),
                      poster.getReward() == null ? null : poster.getReward().toEngineeringString());
   }
 

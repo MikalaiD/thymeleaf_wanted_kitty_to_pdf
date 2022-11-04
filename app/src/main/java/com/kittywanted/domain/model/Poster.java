@@ -9,5 +9,9 @@ import java.math.BigDecimal;
 public class Poster {
     private final String name;
     private final BigDecimal reward;
-    private final String ownerName;
+    private final Theme theme;
+
+    public enum Theme{
+        DARK,LIGHT
+    }
 }

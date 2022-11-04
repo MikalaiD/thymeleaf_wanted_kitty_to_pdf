@@ -21,6 +21,6 @@ public class PosterServiceFacade {
   }
 
   public void toggleTheme(final PosterExternalModel poster) {
-    return;
+    poster.toggleTheme();
   }
 }
