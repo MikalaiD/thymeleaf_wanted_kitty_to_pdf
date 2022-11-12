@@ -37,7 +37,6 @@ public class PosterConfig {
     private ITemplateResolver stringTemplateResolver() {
         final var templateResolver = new StringTemplateResolver();
         templateResolver.setOrder(2);
-        templateResolver.setResolvablePatterns(Collections.singleton("pdf/*"));
         templateResolver.setTemplateMode(TemplateMode.HTML);
         templateResolver.setCacheable(false);
         return templateResolver;

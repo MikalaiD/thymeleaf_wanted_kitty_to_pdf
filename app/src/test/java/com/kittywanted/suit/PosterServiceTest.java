@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.kittywanted.adapters.posterservice.SimpleStringResolver;
 import com.kittywanted.config.PosterConfig;
 import com.kittywanted.domain.model.Poster;
-import com.kittywanted.domain.model.Poster.Theme;
+import com.kittywanted.domain.model.Theme;
 import com.kittywanted.domain.ports.PosterService;
 import com.kittywanted.domain.ports.Resolver;
 import com.kittywanted.suit.PosterServiceTest.LocalConfig;
@@ -53,7 +53,6 @@ class PosterServiceTest {
     var emptyPosterExternal = posterService.getEmptyPosterExternal();
     assertNotNull(emptyPosterExternal);
     assertNull(emptyPosterExternal.getName());
-    assertNull(emptyPosterExternal.getTheme());
     assertNull(emptyPosterExternal.getReward());
   }
 
@@ -63,7 +62,7 @@ class PosterServiceTest {
     //given
     var poster = Poster.builder()
                        .name("Fluffy")
-                       .theme(Theme.LIGHT).reward(BigDecimal.valueOf(700))
+                       .reward(BigDecimal.valueOf(700))
                        .build();
 
     var outputPath = tempDir.resolve("poster_all.pdf");
@@ -80,13 +79,13 @@ class PosterServiceTest {
 
     var poster = Poster.builder()
                        .name("Fluffy")
-                       .theme(Theme.LIGHT)
                        .reward(BigDecimal.valueOf(700))
                        .build();
     var template = TestScenariosProvider.getScenario("all_data_has_placeholder",
                                                      TestScenariosProvider.ScenarioType.INPUT);
+    var theme = new Theme(false);
 
-    assertNotNull(posterService.getAsPdfByteArray(poster, template));
+    assertNotNull(posterService.getAsPdfByteArray(poster, template, theme));
   }
 
   private boolean pdfContainsKeyValues(final Path path, final Poster poster) {
@@ -107,7 +106,6 @@ class PosterServiceTest {
 
   private Stream<String> extractAttributes(final Poster poster) {
     return Stream.of(poster.getName(),
-                     poster.getTheme() == null ? null : poster.getTheme().name(),
                      poster.getReward() == null ? null : poster.getReward().toEngineeringString());
   }
 

@@ -12,7 +12,7 @@ import org.thymeleaf.context.Context;
 @RequiredArgsConstructor
 public class SimpleStringResolver implements Resolver<String> {
 
-  @Qualifier("TemplateWithStringResolver")
+  @Qualifier("TemplateWithStringResolver") //TODO refactor and maybe delete
   private final TemplateEngine templateEngine;
 
   public String resolve(final String htmlWithThymeleafTags, final Poster poster) {
