@@ -80,7 +80,7 @@ class PosterEndpointTests {
     var darkTheme = theme.isDark();
 
     mockMvc.perform(post("/toggle-theme").flashAttr("theme", theme))
-           .andExpect(status().is3xxRedirection()); //TODO check if toggled if possible
+           .andExpect(status().is3xxRedirection());
 
     assertEquals(!darkTheme, theme.isDark());
   }

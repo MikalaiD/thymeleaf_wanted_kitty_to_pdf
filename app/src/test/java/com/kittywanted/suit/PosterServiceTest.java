@@ -48,14 +48,6 @@ class PosterServiceTest {
     posterService = new PosterService(resolver);
   }
 
-  @Test
-  void testPosterServiceReturnsEmptyReport() {
-    var emptyPosterExternal = posterService.getEmptyPosterExternal();
-    assertNotNull(emptyPosterExternal);
-    assertNull(emptyPosterExternal.getName());
-    assertNull(emptyPosterExternal.getReward());
-  }
-
   @SneakyThrows
   @Test
   void testPosterSavedAsPdfAndContainsAllData() {
