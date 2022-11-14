@@ -1,9 +1,9 @@
 package com.kittywanted.domain.ports;
 
-import com.kittywanted.domain.model.Poster;
+import java.util.Map;
 
 public interface Resolver<T> {
 
-    T resolve (String htmlWithThymeleafTags,  Poster poster);
+    T resolve (String htmlWithThymeleafTags,  Map<String, Object> poster);
 
 }

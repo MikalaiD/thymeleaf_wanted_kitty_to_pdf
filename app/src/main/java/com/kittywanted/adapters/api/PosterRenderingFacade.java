@@ -19,8 +19,7 @@ public class PosterRenderingFacade {
 
   public byte[] getAsPdf(final Poster poster,
                          final Template template) {
-    return posterService.getAsPdfByteArray(poster.toDomain(),
-                                           template.toString(),
+    return posterService.getAsPdfByteArray(template.toString(), poster.toDomain(),
                                            theme.toDomain());
 
   }

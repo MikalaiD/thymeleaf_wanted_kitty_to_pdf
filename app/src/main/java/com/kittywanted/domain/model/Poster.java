@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 @Data
 @Builder
-public class Poster {
+public class Poster  {
     private final String name;
     private final BigDecimal reward;
 }

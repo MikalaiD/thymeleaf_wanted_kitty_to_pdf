@@ -57,11 +57,12 @@ class PosterServiceTest {
                        .reward(BigDecimal.valueOf(700))
                        .build();
 
+    var theme = new Theme(false);
     var outputPath = tempDir.resolve("poster_all.pdf");
     var template = TestScenariosProvider.getScenario("all_data_has_placeholder",
                                                      TestScenariosProvider.ScenarioType.INPUT);
 
-    assertTrue(posterService.saveAsPdfAt(poster, template, outputPath));
+    assertTrue(posterService.saveAsPdfAt(template, outputPath, poster, theme));
     assertTrue(pdfContainsKeyValues(outputPath, poster));
   }
 
@@ -77,7 +78,7 @@ class PosterServiceTest {
                                                      TestScenariosProvider.ScenarioType.INPUT);
     var theme = new Theme(false);
 
-    assertNotNull(posterService.getAsPdfByteArray(poster, template, theme));
+    assertNotNull(posterService.getAsPdfByteArray(template, poster, theme));
   }
 
   private boolean pdfContainsKeyValues(final Path path, final Poster poster) {

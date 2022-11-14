@@ -1,3 +1,3 @@
 package com.kittywanted.domain.model;
 
-public record Theme(boolean darkTheme) {}
+public record Theme(boolean dark) {}
