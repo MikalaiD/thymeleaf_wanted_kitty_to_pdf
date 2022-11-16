@@ -92,7 +92,7 @@
         <button type="button" class="btn btn-primary btn-lg px-4 gap-3">Primary button</button>
         <button type="button" class="btn btn-outline-secondary btn-lg px-4">Secondary</button>
       </div>
-      <form th:action="@{/toggle-format}" method="post" th:object= "${poster}" class="form-check form-switch form-check-reverse">
+      <form th:action="@{/toggle-theme}" method="post" th:object= "${poster}" class="form-check form-switch form-check-reverse">
         <input type="checkbox" class="form-check-input"
                onclick="clickFn(event)" th:unchecked="${format.get(theme)} ? 'dark' : 'light'">
       </form>
