@@ -1,7 +1,7 @@
 package com.kittywanted.domain.ports;
 
 import com.kittywanted.domain.model.Poster;
-import com.kittywanted.domain.model.Theme;
+import com.kittywanted.domain.model.Format;
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
@@ -26,9 +26,9 @@ public class PosterService {
     public boolean saveAsPdfAt(final String template,
                                final Path outputPath,
                                final Poster poster,
-                               final Theme theme) {
+                               final Format format) {
 
-        var resolvedTemplate = resolveTemplate(template, poster, theme);
+        var resolvedTemplate = resolveTemplate(template, poster, format);
         var document = Jsoup.parse(resolvedTemplate);
         document.outputSettings().syntax(Document.OutputSettings.Syntax.xml);
         try (OutputStream outputStream = new FileOutputStream(outputPath.toFile())) {
@@ -46,8 +46,8 @@ public class PosterService {
     @SneakyThrows
     public byte[] getAsPdfByteArray(final String template,
                                     final Poster poster,
-                                    final Theme theme){
-        var resolvedTemplate = resolveTemplate(template, poster, theme);
+                                    final Format format){
+        var resolvedTemplate = resolveTemplate(template, poster, format);
         var document = Jsoup.parse(resolvedTemplate);
         document.outputSettings().syntax(Document.OutputSettings.Syntax.xml);
         try (var outputStream = new ByteArrayOutputStream();) {
@@ -64,10 +64,10 @@ public class PosterService {
 
     private String resolveTemplate (final String template,
                                     final Poster poster,
-                                    final Theme theme) {
+                                    final Format format) {
         final var map = new HashMap<String, Object>();
         map.put("poster", poster);
-        map.put("theme", theme);
+        map.put("format", format.properties());
         return resolver.resolve(template, map);
     }
 

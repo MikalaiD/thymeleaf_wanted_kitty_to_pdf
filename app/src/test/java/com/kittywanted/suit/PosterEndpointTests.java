@@ -1,6 +1,6 @@
 package com.kittywanted.suit;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.when;
@@ -12,9 +12,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.kittywanted.adapters.api.PosterEndpoint;
 import com.kittywanted.adapters.api.PosterRenderingFacade;
 import com.kittywanted.adapters.api.Template;
+import com.kittywanted.adapters.posterservice.FormattingService;
 import com.kittywanted.adapters.posterservice.externalmodel.Poster;
-import com.kittywanted.adapters.posterservice.externalmodel.Theme;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ class PosterEndpointTests {
   private PosterRenderingFacade posterRenderingFacade;
 
   @MockBean
-  private Theme theme;
+  private FormattingService formattingService;
 
   private Poster poster;
 
@@ -59,7 +60,7 @@ class PosterEndpointTests {
     mockMvc.perform(get("/"))
            .andExpect(status().isOk())
            .andExpect(model().attribute("poster", poster))
-           .andExpect(model().attributeExists("theme"));
+           .andExpect(model().attributeExists("format"));
   }
 
   @Test
@@ -69,19 +70,5 @@ class PosterEndpointTests {
 
     mockMvc.perform(get("/save-as-pdf").flashAttr("poster", poster))
            .andExpect(status().isOk());
-  }
-
-  @Test
-  void testTogglingPosterTheme() throws Exception {
-
-    doCallRealMethod().when(theme).toggle();
-    doCallRealMethod().when(theme).isDark();
-
-    var darkTheme = theme.isDark();
-
-    mockMvc.perform(post("/toggle-theme").flashAttr("theme", theme))
-           .andExpect(status().is3xxRedirection());
-
-    assertEquals(!darkTheme, theme.isDark());
   }
 }

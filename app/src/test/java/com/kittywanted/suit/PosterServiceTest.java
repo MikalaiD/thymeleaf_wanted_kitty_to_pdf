@@ -5,16 +5,17 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.kittywanted.adapters.posterservice.SimpleStringResolver;
+import com.kittywanted.adapters.posterservice.TemplateToStringResolver;
 import com.kittywanted.config.PosterConfig;
+import com.kittywanted.domain.model.Format;
 import com.kittywanted.domain.model.Poster;
-import com.kittywanted.domain.model.Theme;
 import com.kittywanted.domain.ports.PosterService;
 import com.kittywanted.domain.ports.Resolver;
 import com.kittywanted.suit.PosterServiceTest.LocalConfig;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.stream.Stream;
 import lombok.SneakyThrows;
@@ -56,8 +57,9 @@ class PosterServiceTest {
                        .name("Fluffy")
                        .reward(BigDecimal.valueOf(700))
                        .build();
-
-    var theme = new Theme(false);
+    var formatProperties = new HashMap<String, String>();
+    formatProperties.put("theme", "light");
+    var theme = new Format(formatProperties);
     var outputPath = tempDir.resolve("poster_all.pdf");
     var template = TestScenariosProvider.getScenario("all_data_has_placeholder",
                                                      TestScenariosProvider.ScenarioType.INPUT);
@@ -76,7 +78,9 @@ class PosterServiceTest {
                        .build();
     var template = TestScenariosProvider.getScenario("all_data_has_placeholder",
                                                      TestScenariosProvider.ScenarioType.INPUT);
-    var theme = new Theme(false);
+    var formatProperties = new HashMap<String, String>();
+    formatProperties.put("theme", "light");
+    var theme = new Format(formatProperties); //TODO refactor DRY
 
     assertNotNull(posterService.getAsPdfByteArray(template, poster, theme));
   }
@@ -106,7 +110,7 @@ class PosterServiceTest {
   static class LocalConfig{
     @Bean
     public Resolver<String> resolver(final TemplateEngine templateEngine){
-      return new SimpleStringResolver(templateEngine);
+      return new TemplateToStringResolver(templateEngine);
     }
   }
 }

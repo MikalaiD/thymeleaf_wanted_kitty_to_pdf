@@ -1,7 +1,7 @@
 package com.kittywanted.adapters.api;
 
+import com.kittywanted.adapters.posterservice.FormattingService;
 import com.kittywanted.adapters.posterservice.externalmodel.Poster;
-import com.kittywanted.adapters.posterservice.externalmodel.Theme;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class PosterEndpoint {
 
   public static final String POSTER = "poster";
-  public static final String THEME = "theme";
+  public static final String FORMAT = "format";
   private final PosterRenderingFacade posterRenderingFacade;
-  private final Theme activeTheme;
+  private final FormattingService formattingService;
 
   @GetMapping("/")
   public String getIndex(final Model model) {
       model.addAttribute(POSTER, posterRenderingFacade.getEmptyPoster());
-      model.addAttribute(THEME, activeTheme);
+      model.addAttribute(FORMAT, formattingService.getProperties());
     return "html/index";
   }
 
@@ -33,9 +33,9 @@ public class PosterEndpoint {
     return posterRenderingFacade.getAsPdf(poster, Template.CAT_WANTED);
   }
 
-      @PostMapping("/toggle-theme")
+  @PostMapping("/toggle-theme")
   public String toggleTheme() {
-    activeTheme.toggle();
+    formattingService.toggleTheme();
     return "redirect:/";
   }
 

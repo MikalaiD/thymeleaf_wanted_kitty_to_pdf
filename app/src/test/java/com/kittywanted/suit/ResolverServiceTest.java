@@ -2,15 +2,15 @@ package com.kittywanted.suit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.kittywanted.adapters.posterservice.SimpleStringResolver;
+import com.kittywanted.adapters.posterservice.FormattingService;
+import com.kittywanted.adapters.posterservice.TemplateToStringResolver;
 import com.kittywanted.config.PosterConfig;
+import com.kittywanted.domain.model.Format;
 import com.kittywanted.domain.model.Poster;
-import com.kittywanted.domain.model.Theme;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +25,10 @@ class ResolverServiceTest {
     @Autowired
     private TemplateEngine templateEngine;
 
-    private SimpleStringResolver resolver;
+    private TemplateToStringResolver resolver;
     @BeforeEach
     void setup(){
-        resolver = new SimpleStringResolver(templateEngine);
+        resolver = new TemplateToStringResolver(templateEngine);
     }
 
     @Test
@@ -36,8 +36,10 @@ class ResolverServiceTest {
         var input = TestScenariosProvider.getScenario("hello", TestScenariosProvider.ScenarioType.INPUT);
         var expectedHtmlOutput = TestScenariosProvider.getScenario("hello", TestScenariosProvider.ScenarioType.EXPECTED);
         var poster =Map.entry("poster", Poster.builder().name("Garfield").reward(BigDecimal.valueOf(9999)).build());
-        var theme = Map.entry("theme", new Theme(false));
-        var map = Map.ofEntries(poster,theme);
+        var formatProperties = new HashMap<String, String>();
+        formatProperties.put("theme", "light");
+        var format = Map.entry("format", formatProperties);
+        var map = Map.ofEntries(poster,format);
 
         var resolvedOutput = resolver.resolve(input, map);
         assertEquals(StringUtils.trimAllWhitespace(expectedHtmlOutput), StringUtils.trimAllWhitespace(resolvedOutput));

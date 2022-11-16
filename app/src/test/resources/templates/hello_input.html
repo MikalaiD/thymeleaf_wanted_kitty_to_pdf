@@ -9,9 +9,9 @@
 
 <body>
 
-<p th:text="${poster.name}">Fluffy!</p>
-<p th:text="${poster.reward}">99999!</p>
-<p th:text="${theme.dark} ? 'dark' : 'light'">dark</p>
+<p th:text="${poster.name}">unknown!</p>
+<p th:text="${poster.reward}">unknown!</p>
+<p th:text="${format.get(theme)} ? 'dark' : 'light'">unknown!</p>
 
 </body>
 

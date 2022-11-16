@@ -9,7 +9,7 @@ import org.thymeleaf.context.Context;
 
 @Service
 @RequiredArgsConstructor
-public class SimpleStringResolver implements Resolver<String> {
+public class TemplateToStringResolver implements Resolver<String> {
 
   private final TemplateEngine templateEngine;
 
