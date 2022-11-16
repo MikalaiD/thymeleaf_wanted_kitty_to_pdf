@@ -57,14 +57,12 @@ class PosterServiceTest {
                        .name("Fluffy")
                        .reward(BigDecimal.valueOf(700))
                        .build();
-    var formatProperties = new HashMap<String, String>();
-    formatProperties.put("theme", "light");
-    var theme = new Format(formatProperties);
+    var format = getDefaultFormat();
     var outputPath = tempDir.resolve("poster_all.pdf");
     var template = TestScenariosProvider.getScenario("all_data_has_placeholder",
                                                      TestScenariosProvider.ScenarioType.INPUT);
 
-    assertTrue(posterService.saveAsPdfAt(template, outputPath, poster, theme));
+    assertTrue(posterService.saveAsPdfAt(template, outputPath, poster, format));
     assertTrue(pdfContainsKeyValues(outputPath, poster));
   }
 
@@ -78,9 +76,7 @@ class PosterServiceTest {
                        .build();
     var template = TestScenariosProvider.getScenario("all_data_has_placeholder",
                                                      TestScenariosProvider.ScenarioType.INPUT);
-    var formatProperties = new HashMap<String, String>();
-    formatProperties.put("theme", "light");
-    var theme = new Format(formatProperties); //TODO refactor DRY
+    Format theme = getDefaultFormat();
 
     assertNotNull(posterService.getAsPdfByteArray(template, poster, theme));
   }
@@ -104,6 +100,13 @@ class PosterServiceTest {
   private Stream<String> extractAttributes(final Poster poster) {
     return Stream.of(poster.getName(),
                      poster.getReward() == null ? null : poster.getReward().toEngineeringString());
+  }
+
+  private static Format getDefaultFormat() {
+    var formatProperties = new HashMap<String, String>();
+    formatProperties.put("theme", "light");
+    var theme = new Format(formatProperties);
+    return theme;
   }
 
   @TestConfiguration
