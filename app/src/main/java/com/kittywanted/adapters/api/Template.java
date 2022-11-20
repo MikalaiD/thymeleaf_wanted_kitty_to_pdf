@@ -12,13 +12,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Getter
 public enum Template {
-  CAT_WANTED("index");
+  CAT_WANTED("cat_wanted");
 
   private final String fileName ;
 
   @Override
   public String toString(){
-    var path = new StringBuilder("./app/src/main/resources/templates/" + this.fileName + ".html");
+    var path = new StringBuilder("./app/src/main/resources/templates/pdf/" + this.fileName + ".html");
     try (Stream<String> lines = Files.lines(Path.of(path.toString()))) {
       return lines.collect(Collectors.joining(" "));
     } catch (IOException e){

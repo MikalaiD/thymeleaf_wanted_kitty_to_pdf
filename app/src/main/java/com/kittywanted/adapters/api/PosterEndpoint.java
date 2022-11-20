@@ -27,7 +27,7 @@ public class PosterEndpoint {
     return "html/index";
   }
 
-  @GetMapping(value = "/save-as-pdf",
+  @PostMapping(value = "/save-as-pdf",
       produces = MediaType.APPLICATION_PDF_VALUE)
   public @ResponseBody byte[] saveAsPdf(@ModelAttribute final Poster poster) {
     return posterRenderingFacade.getAsPdf(poster, Template.CAT_WANTED);

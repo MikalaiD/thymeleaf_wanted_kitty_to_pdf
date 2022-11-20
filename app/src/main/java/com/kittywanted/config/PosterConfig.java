@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.linkbuilder.ILinkBuilder;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
@@ -20,6 +21,7 @@ public class PosterConfig {
         final TemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.addTemplateResolver(htmlTemplateResolver());
         templateEngine.addTemplateResolver(stringTemplateResolver());
+        templateEngine.setLinkBuilder(linkBuilder());
         return templateEngine;
     }
 
@@ -40,5 +42,9 @@ public class PosterConfig {
         templateResolver.setTemplateMode(TemplateMode.HTML);
         templateResolver.setCacheable(false);
         return templateResolver;
+    }
+
+    private ILinkBuilder linkBuilder(){
+        return new CustomLinkBuilder();
     }
 }

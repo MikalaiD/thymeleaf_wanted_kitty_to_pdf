@@ -1,0 +1,31 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" class="h-100">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <title>Kitty Wanted</title>
+
+  <link rel="stylesheet" type="text/css" th:href="@{/css/cat_wanted.css}">
+</head>
+<body th:classappend="${format.theme} == 'dark' ? dark : light">
+
+<main>
+  <p style="text-align: center;"><strong>&nbsp;<img class="mug-shot" src="" width="400" height="400"
+                                                    th:src="${format.theme == 'dark' ? './app/src/main/resources/static/images/cat_dark.png' : './app/src/main/resources/static/images/cat_light.png'}"/></strong>
+  </p>
+  <table
+      style="height: 38px; width: 30.1137%; border-collapse: collapse; margin-left: auto; margin-right: auto;"
+      border="0">
+    <tbody>
+    <tr>
+      <td style="width: 100%; text-align: center;">Fluffy</td>
+    </tr>
+    <tr>
+      <td style="width: 100%; text-align: center;">3000 $</td>
+    </tr>
+    </tbody>
+  </table>
+</main>
+</body>
+</html>
