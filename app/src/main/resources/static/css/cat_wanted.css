@@ -5,3 +5,23 @@
 .light {
   background-color: white
 }
+
+.label-dark{
+  color: #ffffff;
+  width: 100%;
+  padding-top: 50px;
+  font-weight: bold;
+}
+
+.label-light{
+  color: #000000;
+  width: 100%;
+
+  padding-top: 50px;
+  font-weight: bold;
+}
+
+.label-any{
+  text-align: center;
+  font-size:  xx-large;
+}

@@ -89,8 +89,8 @@
     <div class="container-fluid">
       <form th:action="@{/toggle-theme}" method="post"
             class="form-check form-switch form-check-reverse">
-        <input type="checkbox" class="form-check-input"
-               onclick="clickFn(event)" th:value="${format.theme} == 'dark'" th:checked="${format.theme} == 'dark'">
+        <input type="checkbox" class="btn-check" id="btn-toggle-theme" checked autocomplete="off" onclick="clickFn(event)" th:value="${format.theme} == 'dark'" th:checked="${format.theme} == 'dark'">
+        <label class="btn btn-outline-dark" for="btn-toggle-theme" th:text="${format.theme} == 'dark' ? 'Light' : 'Dark'">Theme</label><br>
       </form>
     </div>
   </nav>
@@ -100,9 +100,19 @@
          th:src="${format.theme == 'dark' ? '/images/cat_dark.png' : '/images/cat_light.png'}"
          alt="" width="330"
          height="330">
-    <div class="col-lg-6 mx-auto">
+    <div class="col-lg-1 mx-auto">
       <form th:action="@{/save-as-pdf}" method="post" th:object="${poster}">
-        <input type="submit" class="btn btn-dark">
+        <div class="mb-3">
+          <label th:classappend="${format.theme} == 'dark' ? label-dark : label-light">Cat's name</label>
+          <input type="text" class="form-control" th:field="*{name}" autocomplete="off">
+        </div>
+        <div class="mb-3">
+          <label th:classappend="${format.theme} == 'dark' ? label-dark : label-light">Reward in $</label>
+          <input class="form-control" type="number" min="0" max="999" step="1" th:field="*{reward}">
+        </div>
+        <div class="mb-3">
+          <input type="submit" class="btn" th:classappend="${format.theme} == 'dark' ? btn-dark : btn-light">
+        </div>
       </form>
     </div>
     </main>

@@ -19,10 +19,10 @@
       border="0">
     <tbody>
     <tr>
-      <td style="width: 100%; text-align: center;">Fluffy</td>
+      <td class="label-any" th:text="${poster.name}" th:classappend="${format.theme} == 'dark' ? label-dark : label-light">Fluffy</td>
     </tr>
     <tr>
-      <td style="width: 100%; text-align: center;">3000 $</td>
+      <td class="label-any" th:text="'Reward: ' + ${poster.reward} +' $'" th:classappend="${format.theme} == 'dark' ? label-dark : label-light">3000</td>
     </tr>
     </tbody>
   </table>

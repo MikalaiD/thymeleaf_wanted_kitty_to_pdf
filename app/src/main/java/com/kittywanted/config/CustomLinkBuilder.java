@@ -21,5 +21,4 @@ public class CustomLinkBuilder extends StandardLinkBuilder {
 
   }
 
-
 }

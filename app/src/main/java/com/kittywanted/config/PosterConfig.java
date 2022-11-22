@@ -16,7 +16,7 @@ import org.thymeleaf.templateresolver.StringTemplateResolver;
 public class PosterConfig {
 
     @Bean
-    @Primary //delete if not needed
+    @Primary
     public TemplateEngine springTemplateEngine(){
         final TemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.addTemplateResolver(htmlTemplateResolver());
@@ -32,7 +32,7 @@ public class PosterConfig {
         templateResolver.setPrefix("/templates/");
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode(TemplateMode.HTML);
-        templateResolver.setCacheable(true);
+        templateResolver.setCacheable(false);
         return templateResolver;
     }
 

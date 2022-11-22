@@ -48,9 +48,9 @@ public class PosterService {
                                     final Poster poster,
                                     final Format format){
         var resolvedTemplate = resolveTemplate(template, poster, format);
-        var document = Jsoup.parse(resolvedTemplate);
+        var document = Jsoup.parse(resolvedTemplate,  "UTF-8"); //MAYBE rewrite using aspose https://blog.aspose.com/pdf/convert-html-to-pdf-in-java/
         document.outputSettings().syntax(Document.OutputSettings.Syntax.xml);
-        try (var outputStream = new ByteArrayOutputStream();) {
+        try (var outputStream = new ByteArrayOutputStream()) {
             ITextRenderer renderer = new ITextRenderer();
             SharedContext sharedContext = renderer.getSharedContext();
             sharedContext.setPrint(true);
